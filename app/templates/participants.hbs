@@ -1,6 +1,36 @@
-<h3>Create a new participant: Please enter the following information about your child</h3>
+<h3>Current participants:</h3>
 
-<p>Child's name:</p>
+{{#cp-panels accordion=true}}
+
+{{#each model as |participant|}}
+
+  {{#cp-panel}}
+    {{#cp-panel-toggle}}
+      <p>{{participant.firstName}}</p>
+    {{/cp-panel-toggle}}
+    {{#cp-panel-body}}
+      <div>
+        <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
+        <p>Birthday: {{participant.birthday}}</p>
+        <p>Gender: {{participant.gender}}</p>
+        <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
+      </div>
+    {{/cp-panel-body}}
+  {{/cp-panel}}
+
+{{/each}}
+
+{{/cp-panels}}
+
+{{#cp-panels accordion=true}}
+
+{{#cp-panel}}
+    {{#cp-panel-toggle}}
+      <p>Add another child</p>
+    {{/cp-panel-toggle}}
+    {{#cp-panel-body}}
+      <div>
+        <p>Child's name:</p>
 {{input type="text" id="new-firstname" placeholder="First Name" value=newFirstName action="createParticipant"}}
 
 {{input type="text" id="new-lastname" placeholder="Last Name" value=newLastName action="createParticipant"}}
@@ -17,12 +47,9 @@
 <br><br>
 
 <button {{action 'createParticipant'}}>Create Participant</button>
+      </div>
+    {{/cp-panel-body}}
+  {{/cp-panel}}
 
-<h3>Current participants:</h3>
-{{#each model as |participant|}}
-    <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
-    <p>Birthday: {{participant.birthday}}</p>
-    <p>Gender: {{participant.gender}}</p>
-    <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
-    <br>
-{{/each}}
+{{/cp-panels}}
+
