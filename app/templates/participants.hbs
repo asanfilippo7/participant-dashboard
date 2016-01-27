@@ -1,55 +1,83 @@
-<h3>Current participants:</h3>
+{{#ivy-tabs}}
+  {{#ivy-tab-list}}
+    {{#ivy-tab}}(This is an unstyled tab! Click me) Participants:{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Tab 2{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Tab 3{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Tab 4{{/ivy-tab}}
+  {{/ivy-tab-list}}
+
+<!--    Participants tab-->
+{{#ivy-tab-panel}}
+    
+{{#cp-panels accordion=true}}
+
+    {{#each model as |participant|}}
+
+      {{#cp-panel}}
+        {{#cp-panel-toggle}}
+          <p>(Unstyled panel) {{participant.firstName}}</p>
+        {{/cp-panel-toggle}}
+        {{#cp-panel-body}}
+          <div>
+            <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
+            <p>Birthday: {{participant.birthday}}</p>
+            <p>Gender: {{participant.gender}}</p>
+            <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
+          </div>
+        {{/cp-panel-body}}
+      {{/cp-panel}}
+
+    {{/each}}
+
+    {{/cp-panels}}
 
 {{#cp-panels accordion=true}}
 
-{{#each model as |participant|}}
+    {{#cp-panel}}
+        {{#cp-panel-toggle}}
+          <p>(This is an unstyled panel) Add another child</p>
+        {{/cp-panel-toggle}}
+        {{#cp-panel-body}}
+          <div>
+            <p>Child's name:</p>
+    {{input type="text" id="new-firstname" placeholder="First Name" value=newFirstName action="createParticipant"}}
 
-  {{#cp-panel}}
-    {{#cp-panel-toggle}}
-      <p>{{participant.firstName}}</p>
-    {{/cp-panel-toggle}}
-    {{#cp-panel-body}}
-      <div>
-        <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
-        <p>Birthday: {{participant.birthday}}</p>
-        <p>Gender: {{participant.gender}}</p>
-        <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
-      </div>
-    {{/cp-panel-body}}
-  {{/cp-panel}}
+    {{input type="text" id="new-lastname" placeholder="Last Name" value=newLastName action="createParticipant"}}
 
-{{/each}}
+    <p>Date of Birth:</p>
+    {{input type="text" id="new-birthday" placeholder="MM/DD/YYYY" value=newBirthday action="createParticipant"}}
 
-{{/cp-panels}}
+    <p>Gender:</p>
+    {{view "select" content=genders value=selectedGender}}
 
-{{#cp-panels accordion=true}}
+    <p>Gestational age at birth:</p>
+    {{view "select" content=gestationalAges value=selectedGestationalAge}}
 
-{{#cp-panel}}
-    {{#cp-panel-toggle}}
-      <p>Add another child</p>
-    {{/cp-panel-toggle}}
-    {{#cp-panel-body}}
-      <div>
-        <p>Child's name:</p>
-{{input type="text" id="new-firstname" placeholder="First Name" value=newFirstName action="createParticipant"}}
+    <br><br>
 
-{{input type="text" id="new-lastname" placeholder="Last Name" value=newLastName action="createParticipant"}}
-
-<p>Date of Birth:</p>
-{{input type="text" id="new-birthday" placeholder="MM/DD/YYYY" value=newBirthday action="createParticipant"}}
-
-<p>Gender:</p>
-{{view "select" content=genders value=selectedGender}}
-
-<p>Gestational age at birth:</p>
-{{view "select" content=gestationalAges value=selectedGestationalAge}}
-
-<br><br>
-
-<button {{action 'createParticipant'}}>Create Participant</button>
-      </div>
-    {{/cp-panel-body}}
-  {{/cp-panel}}
+    <button {{action 'createParticipant'}}>Create Participant</button>
+          </div>
+        {{/cp-panel-body}}
+      {{/cp-panel}}
 
 {{/cp-panels}}
+    
+
+{{/ivy-tab-panel}}
+
+  {{#ivy-tab-panel}}
+    <h2>Tab 2 content</h2>
+  {{/ivy-tab-panel}}
+
+  {{#ivy-tab-panel}}
+    <h2>Tab 3 content</h2>
+  {{/ivy-tab-panel}}
+
+    {{#ivy-tab-panel}}
+    <h2>Tab 4 content</h2>
+  {{/ivy-tab-panel}}
+
+{{/ivy-tabs}}
+
+
 
