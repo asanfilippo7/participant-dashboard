@@ -11,12 +11,14 @@ export default Ember.Controller.extend({
         createParticipant: function() {
             var firstName = this.get('newFirstName');
             var lastName = this.get('newLastName');
+            var birthday = new Date(this.get('newBirthday'));
             var gender = this.get('selectedGender');
             var gestationalAgeAtBirth = this.get('selectedGestationalAge');
             
             var participant = this.store.createRecord('participant', {
                 firstName: firstName,
                 lastName: lastName,
+                birthday: birthday,
                 gender: gender,
                 gestationalAgeAtBirth: gestationalAgeAtBirth
             });
@@ -25,6 +27,7 @@ export default Ember.Controller.extend({
             
             this.set('newFirstName','First Name');
             this.set('newLastName','Last Name');
+            this.set('newBirthday','DD/MM/YYYYY');
             
             participant.save();
         }

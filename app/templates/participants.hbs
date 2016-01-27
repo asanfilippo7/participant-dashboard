@@ -1,9 +1,12 @@
 <h3>Create a new participant: Please enter the following information about your child</h3>
 
-<p>First and last name:</p>
+<p>Child's name:</p>
 {{input type="text" id="new-firstname" placeholder="First Name" value=newFirstName action="createParticipant"}}
 
 {{input type="text" id="new-lastname" placeholder="Last Name" value=newLastName action="createParticipant"}}
+
+<p>Date of Birth:</p>
+{{input type="text" id="new-birthday" placeholder="MM/DD/YYYY" value=newBirthday action="createParticipant"}}
 
 <p>Gender:</p>
 {{view "select" content=genders value=selectedGender}}
@@ -18,6 +21,7 @@
 <h3>Current participants:</h3>
 {{#each model as |participant|}}
     <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
+    <p>Birthday: {{participant.birthday}}</p>
     <p>Gender: {{participant.gender}}</p>
     <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
     <br>
