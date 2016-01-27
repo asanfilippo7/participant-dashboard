@@ -1,10 +1,24 @@
 {{#ivy-tabs}}
   {{#ivy-tab-list}}
-    {{#ivy-tab}}(This is an unstyled tab! Click me) Participants:{{/ivy-tab}}
-    {{#ivy-tab}}(Unstyled tab) Tab 2{{/ivy-tab}}
-    {{#ivy-tab}}(Unstyled tab) Tab 3{{/ivy-tab}}
-    {{#ivy-tab}}(Unstyled tab) Tab 4{{/ivy-tab}}
+    {{#ivy-tab}}(This is an unstyled tab! Click me) Account Information{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Demographic Survey{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Children Information{{/ivy-tab}}
+    {{#ivy-tab}}(Unstyled tab) Email Preferences{{/ivy-tab}}
   {{/ivy-tab-list}}
+
+<!--Account information tab-->
+{{#ivy-tab-panel}}
+    <p>Name: {{input type="text" id="new-accountName" placeholder="Name" value=newAccountName action="editAccount"}}</p>
+    <p>Email: {{input type="text" id="new-accountEmail" placeholder="Email" value=newAccountEmail action="editAccount"}}</p>
+<button {{action 'editAccount'}}>Save</button>
+<!--There will eventually be further content for changing password-->
+<p>(Password change content coming soon)</p>
+{{/ivy-tab-panel}}
+
+<!--Demographic survey tab-->
+{{#ivy-tab-panel}}
+    <h2>Demographics</h2>
+{{/ivy-tab-panel}}
 
 <!--    Participants tab-->
 {{#ivy-tab-panel}}
@@ -23,6 +37,7 @@
             <p>Birthday: {{participant.birthday}}</p>
             <p>Gender: {{participant.gender}}</p>
             <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
+<!--              <p>Account owner: {{participant.account.name}}</p>-->
           </div>
         {{/cp-panel-body}}
       {{/cp-panel}}
@@ -65,17 +80,9 @@
 
 {{/ivy-tab-panel}}
 
-  {{#ivy-tab-panel}}
-    <h2>Tab 2 content</h2>
-  {{/ivy-tab-panel}}
-
-  {{#ivy-tab-panel}}
-    <h2>Tab 3 content</h2>
-  {{/ivy-tab-panel}}
-
-    {{#ivy-tab-panel}}
+{{#ivy-tab-panel}}
     <h2>Tab 4 content</h2>
-  {{/ivy-tab-panel}}
+{{/ivy-tab-panel}}
 
 {{/ivy-tabs}}
 

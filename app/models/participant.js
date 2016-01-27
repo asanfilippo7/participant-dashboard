@@ -5,5 +5,6 @@ export default DS.Model.extend({
     lastName: DS.attr('string'),
     birthday: DS.attr('date'),
     gender: DS.attr('string'),
-    gestationalAgeAtBirth: DS.attr('string')
+    gestationalAgeAtBirth: DS.attr('string'),
+    account: DS.belongsTo('account')
 });

@@ -10,12 +10,26 @@ export default function() {
     let data = {};
       if(!db.participants == undefined) {
         data = db.participants.map((attrs) => {
-          let rec = {type: 'participants', id: attrs.id, attributes: attrs};
+          let rec = {type: 'participant', id: attrs.id, attributes: attrs};
           return rec;
         });
       }  
     return { data };
   });
+    
+this.get('/accounts/:id');
+
+    
+//this.get('/accounts', (db, request) => {
+//    let data = {};
+//      if(!db.accounts == undefined) {
+//        data = db.accounts.map((attrs) => {
+//          let rec = {type: 'account', id: attrs.id, attributes: attrs};
+//          return rec;
+//        });
+//      }  
+//    return { data };
+//  });
 
   /*
     Config (with defaults).
