@@ -27,9 +27,6 @@ export default Ember.Controller.extend({
     selectedAppointment: "Prefer not to answer",
     appointment: ["Yes","No","Prefer not to answer"],
     
-    demographicToDo: true,
-    thankYouDemographic: '',
-    
     actions: {
 //        To add a new participant in the Children Information tab
         createParticipant: function() {
@@ -53,7 +50,6 @@ export default Ember.Controller.extend({
             participant.save();
             
             var account = this.store.findRecord('account',accountID).then(function(updated) {
-                console.log("updating account now");
                 var toAdd = [];
                 toAdd.push(participant);
                 updated.set('participants', toAdd);
@@ -79,6 +75,7 @@ export default Ember.Controller.extend({
         
 //        To save a new demographic survey
         newDemographicSurvey: function() {
+            
             var languages = this.get('languages');
             var numberOfChildren = this.get('numberOfChildren');
             var childBirthdates = this.get('childBirthdates');
@@ -93,34 +90,54 @@ export default Ember.Controller.extend({
             var additionalComments = this.get('additionalComments');
             var accountID = this.get('accountID');
             var parent = this.store.peekRecord('account',accountID);
+            console.log(languages);
             
-            var demographic = this.store.createRecord('demographic', {
-                languages: languages,
-                numberOfChildren: numberOfChildren,
-                childBirthdates: childBirthdates,
-                numberOfParents: numberOfParents,
-                race: race,
-                age: age,
-                gender: gender, 
-                educationLevel: educationLevel,
-                income: income,
-                contacted: contacted,
-                appointment: appointment,
-                additionalComments: additionalComments,
-                account: parent
-            });
+//            If the account holder has already filled out a survey 
+            if(parent.get('demographics') != null) {
+                console.log('updating demographic record');
+                var demo = parent.get('demographics');
+                demo.set('languages',languages);
+                demo.set('numberOfChildren',numberOfChildren);
+                demo.set('childBirthdates',childBirthdates);
+                demo.set('numberOfParents',numberOfParents);
+                demo.set('race',race);
+                demo.set('age',age);
+                demo.set('gender',gender);
+                demo.set('educationLevel',educationLevel);
+                demo.set('income',income);
+                demo.set('contacted',contacted);
+                demo.set('appointment',appointment);
+                demo.set('additionalComments',additionalComments);
+            }
             
-            demographic.save();
+//            If the account holder hasn't filled out a survey yet
+            else {
+                console.log('creating demographic record');
+                var demographic = this.store.createRecord('demographic', {
+                    languages: languages,
+                    numberOfChildren: numberOfChildren,
+                    childBirthdates: childBirthdates,
+                    numberOfParents: numberOfParents,
+                    race: race,
+                    age: age,
+                    gender: gender, 
+                    educationLevel: educationLevel,
+                    income: income,
+                    contacted: contacted,
+                    appointment: appointment,
+                    additionalComments: additionalComments,
+                    account: parent
+                });
+
+                demographic.save();
+
+                var account = this.store.findRecord('account',accountID).then(function(updated) {
+                    var toAdd = [];
+                    toAdd.push(demographic);
+                    updated.set('demographics', toAdd);
+                });
+            }
             
-            var account = this.store.findRecord('account',accountID).then(function(updated) {
-                console.log("updating account now");
-                var toAdd = [];
-                toAdd.push(demographic);
-                updated.set('demographics', toAdd);
-            });
-            
-            this.set('demographicToDo',false);
-            this.set('thankYouDemographic','Thank you for submitting your survey!');
             this.set('languages',' ');
             this.set('numberOfChildren',' ');
             this.set('childBirthdates',' ');

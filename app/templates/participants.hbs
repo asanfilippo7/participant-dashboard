@@ -18,7 +18,6 @@
 <!--Demographic survey tab-->
 {{#ivy-tab-panel}}
 
-{{#if demographicToDo}}
     <p>This is a paragraph, etc...the following questions are optional.</p>
     <p>What language(s) does your family speak at home?</p>
     {{input type="text" id="languages" value=languages action="newDemographicSurvey"}}<br>
@@ -39,10 +38,7 @@
     <p>Any additional comments?</p>
     {{textarea value=additionalComments cols="80" rows="8"}}<br>
     <button {{action 'newDemographicSurvey'}}>Save</button>
-{{else}}
-<p>{{thankYouDemographic}}</p>
-    <button {{action 'resetDemographic'}}>Submit again</button>
-{{/if}}
+
 {{/ivy-tab-panel}}
 
 <!--    Participants tab-->
