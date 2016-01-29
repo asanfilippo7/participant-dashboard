@@ -19,6 +19,7 @@ export default function() {
     
 this.get('/accounts/:id');
 
+this.post('/demographics');
     
 //this.get('/accounts', (db, request) => {
 //    let data = {};

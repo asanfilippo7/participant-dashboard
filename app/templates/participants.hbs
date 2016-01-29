@@ -17,10 +17,37 @@
 
 <!--Demographic survey tab-->
 {{#ivy-tab-panel}}
-    <h2>Demographics</h2>
+
+{{#if demographicToDo}}
+    <p>This is a paragraph, etc...the following questions are optional.</p>
+    <p>What language(s) does your family speak at home?</p>
+    {{input type="text" id="languages" value=languages action="newDemographicSurvey"}}<br>
+    <p>How many children do you have?</p>
+    {{input type="text" id="number-ofChildren" value=numberOfChildren action="newDemographicSurvey"}}<br>
+    <p>What are their birthdates? (mm/yyyy)</p>
+    {{input type="text" id="child-birthdates" value=childBirthdates action="newDemographicSurvey"}}<br>
+    <p>How many parents/guardians do your children live with?</p>
+    {{input type="text" id="number-ofParents" value=numberOfParents action="newDemographicSurvey"}}<br>
+    <p>What race(s) does your family identify as?</p>
+    {{input type="text" id="race" value=race action="newDemographicSurvey"}}<br>
+    <p>Your age {{view "select" content=ages value=selectedAge}}</p>
+    <p>Your gender {{view "select" content=genders value=demographicGender}}</p>
+    <p>What is the highest level of education you have completed? {{view "select" content=education value=selectedEducation}}</p>
+    <p>What is your annual family income before taxes? {{view "select" content=incomes value=selectedIncome}}</p>
+    <p>If you had been contacted on the phone by a local university about participating in studies like this, would you have been interested? {{view "select" content=contacted value=selectedContacted}}</p>
+    <p>Would you have been able to schedule an appointment during the workweek to bring one of your children ~5 miles for this study? {{view "select" content=appointment value=selectedAppointment}}</p>
+    <p>Any additional comments?</p>
+    {{textarea value=additionalComments cols="80" rows="8"}}<br>
+    <button {{action 'newDemographicSurvey'}}>Save</button>
+{{else}}
+<p>{{thankYouDemographic}}</p>
+    <button {{action 'resetDemographic'}}>Submit again</button>
+{{/if}}
 {{/ivy-tab-panel}}
 
 <!--    Participants tab-->
+
+<!--Put this panel list of participants/create new into a component-->
 {{#ivy-tab-panel}}
     
 {{#cp-panels accordion=true}}
