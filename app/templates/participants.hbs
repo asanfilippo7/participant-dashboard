@@ -1,3 +1,5 @@
+<p>POC: {{accountName}}</p>
+
 {{#ivy-tabs}}
   {{#ivy-tab-list}}
     {{#ivy-tab}}(This is an unstyled tab! Click me) Account Information{{/ivy-tab}}
@@ -18,6 +20,8 @@
 <!--Demographic survey tab-->
 {{#ivy-tab-panel}}
 
+<!--If they haven't already completed the survey or they want to re-submit-->
+{{#if fillDemographics}}
     <p>This is a paragraph, etc...the following questions are optional.</p>
     <p>What language(s) does your family speak at home?</p>
     {{input type="text" id="languages" value=languages action="newDemographicSurvey"}}<br>
@@ -38,6 +42,10 @@
     <p>Any additional comments?</p>
     {{textarea value=additionalComments cols="80" rows="8"}}<br>
     <button {{action 'newDemographicSurvey'}}>Save</button>
+{{else}}
+    <p>Thank you for completing the demographic survey!</p>
+    <button {{action 'redoDemographicSurvey'}}>Click here to re-take the survey</button>
+{{/if}}
 
 {{/ivy-tab-panel}}
 

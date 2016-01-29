@@ -27,6 +27,8 @@ export default Ember.Controller.extend({
     selectedAppointment: "Prefer not to answer",
     appointment: ["Yes","No","Prefer not to answer"],
     
+    fillDemographics: true,
+    
     actions: {
 //        To add a new participant in the Children Information tab
         createParticipant: function() {
@@ -138,6 +140,7 @@ export default Ember.Controller.extend({
                 });
             }
             
+            this.set('fillDemographics',false);
             this.set('languages',' ');
             this.set('numberOfChildren',' ');
             this.set('childBirthdates',' ');
@@ -146,16 +149,9 @@ export default Ember.Controller.extend({
             this.set('additionalComments',' ');
         },
         
-//        Reset the demographic survey fields to submit again
-        resetDemographic: function() {
-            this.set('thankYouDemographic',' ');
-            this.set('languages',' ');
-            this.set('numberOfChildren',' ');
-            this.set('childBirthdates',' ');
-            this.set('numberOfParents',' ');
-            this.set('race',' ');
-            this.set('additionalComments',' ');
-            this.set('demographicToDo',true);
+        redoDemographicSurvey: function() {
+            this.set('fillDemographics',true);
         }
+        
     }
 });
