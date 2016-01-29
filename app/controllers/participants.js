@@ -55,6 +55,7 @@ export default Ember.Controller.extend({
                 var toAdd = [];
                 toAdd.push(participant);
                 updated.set('participants', toAdd);
+                updated.save();
             });
             
             this.set('newFirstName','First Name');
@@ -72,10 +73,12 @@ export default Ember.Controller.extend({
             var account = this.store.findRecord('account',accountID).then(function(updated) {
                 updated.set('name', name);
                 updated.set('email', email);
+                updated.save();
             });
         },
         
-//        To save a new demographic survey
+//        To save a new demographic survey. ISSUES WITH THIS: PERSISTING UPDATED RECORDS TO SERVER--both account and demographic
+        
         newDemographicSurvey: function() {
             
             var languages = this.get('languages');
@@ -92,7 +95,6 @@ export default Ember.Controller.extend({
             var additionalComments = this.get('additionalComments');
             var accountID = this.get('accountID');
             var parent = this.store.peekRecord('account',accountID);
-            console.log(languages);
             
 //            If the account holder has already filled out a survey 
             if(parent.get('demographics') != null) {

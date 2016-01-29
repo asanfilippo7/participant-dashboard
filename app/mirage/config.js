@@ -18,8 +18,11 @@ export default function() {
   });
     
 this.get('/accounts/:id');
+this.put('/accounts/:id');
 
+this.get('/demographics/:id');
 this.post('/demographics');
+this.put('/demographics/:id');
     
 //this.get('/accounts', (db, request) => {
 //    let data = {};
