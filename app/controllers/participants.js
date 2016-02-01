@@ -5,6 +5,9 @@ export default Ember.Controller.extend({
     accountController: Ember.inject.controller('application'),
     accountID: Ember.computed.reads('accountController.model.id'),
     
+    pIDCount: 1,
+    dIDCount: 1,
+    
     selectedGender: "Male",
     demographicGender: "Other or prefer not to answer",
     genders: ["Male","Female","Other or prefer not to answer"],
@@ -32,6 +35,7 @@ export default Ember.Controller.extend({
     actions: {
 //        To add a new participant in the Children Information tab
         createParticipant: function() {
+            var pID = this.get('pIDCount');
             var firstName = this.get('newFirstName');
             var lastName = this.get('newLastName');
             var birthday = new Date(this.get('newBirthday'));
@@ -41,6 +45,7 @@ export default Ember.Controller.extend({
             var parent = this.store.peekRecord('account',accountID);
             
             var participant = this.store.createRecord('participant', {
+                id: pID,
                 firstName: firstName,
                 lastName: lastName,
                 birthday: birthday,
@@ -58,6 +63,8 @@ export default Ember.Controller.extend({
                 updated.save();
             });
             
+            this.set('pIDCount',pID + 1);
+            console.log('The new pIDCount is ' + this.get('pIDCount'));
             this.set('newFirstName','First Name');
             this.set('newLastName','Last Name');
             this.set('newBirthday','DD/MM/YYYYY');
@@ -75,12 +82,16 @@ export default Ember.Controller.extend({
                 updated.set('email', email);
                 updated.save();
             });
+            
+            this.set('newAccountName',' ');
+            this.set('newAccountEmail',' ');
         },
         
 //        To save a new demographic survey. ISSUES WITH THIS: PERSISTING UPDATED RECORDS TO SERVER--both account and demographic
         
         newDemographicSurvey: function() {
             
+            var dID = this.get('dIDCount');
             var languages = this.get('languages');
             var numberOfChildren = this.get('numberOfChildren');
             var childBirthdates = this.get('childBirthdates');
@@ -100,6 +111,7 @@ export default Ember.Controller.extend({
             if(parent.get('demographics') != null) {
                 console.log('updating demographic record');
                 var demo = parent.get('demographics');
+                demo.set('id',Number(demo.get('id'))+1);
                 demo.set('languages',languages);
                 demo.set('numberOfChildren',numberOfChildren);
                 demo.set('childBirthdates',childBirthdates);
@@ -112,12 +124,14 @@ export default Ember.Controller.extend({
                 demo.set('contacted',contacted);
                 demo.set('appointment',appointment);
                 demo.set('additionalComments',additionalComments);
+                demo.save();
             }
             
 //            If the account holder hasn't filled out a survey yet
             else {
                 console.log('creating demographic record');
                 var demographic = this.store.createRecord('demographic', {
+                    id: dID,
                     languages: languages,
                     numberOfChildren: numberOfChildren,
                     childBirthdates: childBirthdates,

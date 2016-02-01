@@ -1,11 +1,13 @@
 export default function() {
 
   // These comments are here to help you get started. Feel free to delete them.
-    
+
+//    Post a new participant to the server
     this.post('/participants', (db, request) => {
     return JSON.parse(request.requestBody);
   });
     
+//    Get the participants associated with an account
   this.get('/participants', (db, request) => {
     let data = {};
       if(!db.participants == undefined) {
@@ -16,24 +18,17 @@ export default function() {
       }  
     return { data };
   });
-    
+
+//    Get and update account information
 this.get('/accounts/:id');
 this.put('/accounts/:id');
 
-this.get('/demographics/:id');
+    
+//    Get, post, and update demographic information
+this.get('/demographics');
 this.post('/demographics');
 this.put('/demographics/:id');
-    
-//this.get('/accounts', (db, request) => {
-//    let data = {};
-//      if(!db.accounts == undefined) {
-//        data = db.accounts.map((attrs) => {
-//          let rec = {type: 'account', id: attrs.id, attributes: attrs};
-//          return rec;
-//        });
-//      }  
-//    return { data };
-//  });
+this.get('/demographics/:id');
 
   /*
     Config (with defaults).

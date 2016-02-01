@@ -1,4 +1,11 @@
+Choose the account you wish to login with:
+{{view "select" content=accounts value=selectedAccount}}
+<button {{action 'selectAccount'}}>Choose</button>
+
+
+{{#if model}}
 <h2>Logged in as: {{model.name}}</h2>
 <h4>(Email: {{model.email}})</h4>
+{{/if}}
 
 {{outlet}}

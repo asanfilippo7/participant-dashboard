@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
     model() {
-        return this.store.findAll('participant');
+//        Only return the participants that belong to the logged in account
+        return this.modelFor('application').get('participants');
     },
 });
