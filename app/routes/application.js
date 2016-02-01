@@ -11,11 +11,14 @@ export default Ember.Route.extend({
             console.log('selected account: ' + this.controller.get('selectedAccount'));
             this.set('routeAccount',this.controller.get('selectedAccount'));
             console.log('new route account: ' + this.get('routeAccount'));
+            this.controllerFor('participants').set('fillDemographics',true);
+            console.log(this.controllerFor('participants').get('fillDemographics'));
             this.refresh();
         }
     },
     
     model: function() {
         return this.store.findRecord('account', Number(this.get('routeAccount')));
+//        return this.store.findRecord('account',1);
     }
 });

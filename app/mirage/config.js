@@ -19,6 +19,9 @@ export default function() {
     return { data };
   });
 
+//    Update a participant record
+this.put('/participants/:id');
+
 //    Get and update account information
 this.get('/accounts/:id');
 this.put('/accounts/:id');

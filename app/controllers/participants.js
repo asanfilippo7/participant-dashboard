@@ -5,8 +5,8 @@ export default Ember.Controller.extend({
     accountController: Ember.inject.controller('application'),
     accountID: Ember.computed.reads('accountController.model.id'),
     
-    pIDCount: 1,
-    dIDCount: 1,
+    pIDCount: 0,
+    dIDCount: 0,
     
     selectedGender: "Male",
     demographicGender: "Other or prefer not to answer",
@@ -32,9 +32,12 @@ export default Ember.Controller.extend({
     
     fillDemographics: true,
     
+    isEditingParticipant: false,
+    
     actions: {
 //        To add a new participant in the Children Information tab
         createParticipant: function() {
+            this.set('pIDCount',Number(this.get('pIDCount'))+1);
             var pID = this.get('pIDCount');
             var firstName = this.get('newFirstName');
             var lastName = this.get('newLastName');
@@ -57,18 +60,53 @@ export default Ember.Controller.extend({
             participant.save();
             
             var account = this.store.findRecord('account',accountID).then(function(updated) {
-                var toAdd = [];
-                toAdd.push(participant);
-                updated.set('participants', toAdd);
+//                var toAdd = [];
+//                toAdd.push(updated.get('participants'));
+//                toAdd.push(participant);
+//                updated.set('participants', toAdd);
                 updated.save();
             });
             
-            this.set('pIDCount',pID + 1);
-            console.log('The new pIDCount is ' + this.get('pIDCount'));
             this.set('newFirstName','First Name');
             this.set('newLastName','Last Name');
             this.set('newBirthday','DD/MM/YYYYY');
             
+        },
+        
+//        View logic to show input fields to update participant
+        showEditParticipant: function() {
+            this.set('isEditingParticipant',true);
+        },
+        
+//        To edit participant info in the Child Information tab
+        editParticipant: function(participant) {
+            var firstName = this.get('updateFirstName');
+            var lastName = this.get('updateLastName');
+            var birthday = this.get('updateBirthday');
+            var gender = this.get('updateSelectedGender');
+            var gestationalAgeAtBirth = this.get('updateSelectedGestationalAge');
+            
+//            Find a more efficient way to do this! Also, this throws a Mirage error but still works
+            var p = this.store.findRecord('participant',participant.id).then(function(updated) {
+                if(firstName != undefined) {
+                    updated.set('firstName',firstName);
+                }
+                if(lastName != undefined) {
+                    updated.set('lastName',lastName);
+                }
+                if(birthday != undefined) {
+                    updated.set('birthday',new Date(birthday));
+                }
+                if(gender != undefined) {
+                    updated.set('gender',gender);
+                }
+                if(gestationalAgeAtBirth != undefined) {
+                    updated.set('gestationalAgeAtBirth',gestationalAgeAtBirth);
+                }
+                updated.save();
+            });
+            
+            this.set('isEditingParticipant',false);
         },
         
 //        To update account information in the Account Info tab
@@ -87,10 +125,10 @@ export default Ember.Controller.extend({
             this.set('newAccountEmail',' ');
         },
         
-//        To save a new demographic survey. ISSUES WITH THIS: PERSISTING UPDATED RECORDS TO SERVER--both account and demographic
-        
+//        To save a new demographic survey.
         newDemographicSurvey: function() {
             
+            this.set('dIDCount',Number(this.get('dIDCount'))+1);
             var dID = this.get('dIDCount');
             var languages = this.get('languages');
             var numberOfChildren = this.get('numberOfChildren');
@@ -106,12 +144,13 @@ export default Ember.Controller.extend({
             var additionalComments = this.get('additionalComments');
             var accountID = this.get('accountID');
             var parent = this.store.peekRecord('account',accountID);
+            console.log(parent);
             
-//            If the account holder has already filled out a survey 
+//            If the account holder has already filled out a survey. Mirage throws an error, but it still works.
             if(parent.get('demographics') != null) {
                 console.log('updating demographic record');
                 var demo = parent.get('demographics');
-                demo.set('id',Number(demo.get('id'))+1);
+                demo.set('id',dID);
                 demo.set('languages',languages);
                 demo.set('numberOfChildren',numberOfChildren);
                 demo.set('childBirthdates',childBirthdates);
@@ -127,9 +166,11 @@ export default Ember.Controller.extend({
                 demo.save();
             }
             
-//            If the account holder hasn't filled out a survey yet
+//            CHANGE THIS: make it a separate method? If the account holder hasn't filled out a survey yet
             else {
                 console.log('creating demographic record');
+                console.log(dID);
+                
                 var demographic = this.store.createRecord('demographic', {
                     id: dID,
                     languages: languages,

@@ -60,14 +60,38 @@
         {{#cp-panel-toggle}}
           <p>(Unstyled panel) {{participant.firstName}}</p>
         {{/cp-panel-toggle}}
+
         {{#cp-panel-body}}
+
+        {{#if isEditingParticipant}}
+            <div>
+                <p>Child's name:</p>
+                {{input type="text" id="update-firstname" placeholder=participant.firstName value=updateFirstName action="editParticipant"}}
+
+                {{input type="text" id="update-lastname" placeholder=participant.lastName value=updateLastName action="editParticipant"}}
+
+                <p>Date of Birth:</p>
+                {{input type="text" id="update-birthday" placeholder=participant.birthday value=updateBirthday action="editParticipant"}}
+
+                <p>Gender:</p>
+                {{view "select" content=genders value=updateSelectedGender}}
+
+                <p>Gestational age at birth:</p>
+                {{view "select" content=gestationalAges value=updateSelectedGestationalAge}}
+                
+                <br><br>
+                <button {{action 'editParticipant' participant}}>Update</button>
+            
+        </div>
+        {{else}}
           <div>
             <p>Name: {{participant.firstName}} {{participant.lastName}}</p>
             <p>Birthday: {{participant.birthday}}</p>
             <p>Gender: {{participant.gender}}</p>
             <p>Gestational Age at Birth: {{participant.gestationalAgeAtBirth}}</p>
-<!--              <p>Account owner: {{participant.account.name}}</p>-->
+              <button {{action 'showEditParticipant'}}>Update participant information</button>
           </div>
+        {{/if}}
         {{/cp-panel-body}}
       {{/cp-panel}}
 
